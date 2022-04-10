@@ -13,17 +13,17 @@ public class CountDownText : MonoBehaviour
 
     void OnEnable()
     {
-        countdown.GetComponent<Text>();
+        countdown = GetComponent<Text>();
         countdown.text = "3";
-        StartCoroutine("Countdown");
+        StartCoroutine(Countdown());
     }
 
-    IEnumerable Countdown()
+    IEnumerator Countdown()
     {
         int count = 3;
-        for(int i=0; i< count; i++)
+        for (int i = 0; i < count; i++)
         {
-            countdown.text = (count - i).ToString();
+            countdown.text = (count - i).ToString(); 
             yield return new WaitForSeconds(1);
         }
 

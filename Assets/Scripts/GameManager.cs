@@ -11,10 +11,10 @@ public class GameManager : MonoBehaviour
 
     public static GameManager Instance;
 
+    public Text scoreText;
     public GameObject startPage;
     public GameObject gameOverPage;
     public GameObject countDownPage;
-    public Text scoreText;
 
     enum PageState{None, Start, GameOver, Countdown}
 
@@ -59,7 +59,7 @@ public class GameManager : MonoBehaviour
     void OnEnable()
     {
         CountDownText.OnCountdownFinished += OnCountdownFinished;      
-        TabController.OnPlayerScored -= OnPlayerScored;
+        TabController.OnPlayerScored += OnPlayerScored;
         TabController.OnPlayerDied += OnPlayerDied;
     }
 

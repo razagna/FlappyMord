@@ -17,12 +17,14 @@ public class TabController : MonoBehaviour
     Quaternion downRotation;
     Quaternion forwardRotation;
 
+    GameManager game;
+
     void Start()
     {
         rigidbody = GetComponent<Rigidbody2D>   ();
         downRotation = Quaternion.Euler(0, 0, -90);
         forwardRotation = Quaternion.Euler(0, 0, 35);
-        
+        game = GameManager.Instance;
     }
 
     void OnEnable()
@@ -31,7 +33,7 @@ public class TabController : MonoBehaviour
         GameManager.OnGameOverConfirmed += OnGameOverConfirmed;
     }
 
-    void OnEnable()
+    void OnDisable()
     {
         GameManager.OnGameStarted -= OnGameStarted;
         GameManager.OnGameOverConfirmed -= OnGameOverConfirmed;
@@ -39,17 +41,21 @@ public class TabController : MonoBehaviour
 
     void OnGameStarted()
     {
-        
+        rigidbody.velocity = Vector3.zero;
+        rigidbody.simulated = true;
     }
 
     void OnGameOverConfirmed()
     {
-        
+        transform.localPosition = startPos;
+        transform.rotation = Quaternion.identity;
     }
 
 
     void Update()
     {
+        if(game.GameOver) return;
+
         if(Input.GetMouseButtonDown(0))
         {
             transform.rotation = forwardRotation;
@@ -60,7 +66,7 @@ public class TabController : MonoBehaviour
         transform.rotation = Quaternion.Lerp(transform.rotation, downRotation, tiltSmooth*Time.deltaTime);
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.gameObject.tag == "Score Zone")
         {
