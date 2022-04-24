@@ -18,10 +18,8 @@ public class GameManager : MonoBehaviour
 
     enum PageState{None, Start, GameOver, Countdown}
 
-    int score = 0;
-    bool gameOver = false;
-
-    public bool GameOver{get { return gameOver; }}
+    public bool GameOver { get; private set; } = true;
+    public int Score { get; private set; } = 0;
 
     void Awake()
     {
@@ -74,25 +72,25 @@ public class GameManager : MonoBehaviour
     {
         SetPageState(PageState.None);
         OnGameStarted(); //event is sent to Tab Controller
-        score = 0;
-        gameOver = false;
+        Score = 0;
+        GameOver = false;
     }
 
     void OnPlayerDied()
     {
-        gameOver = true;
+        GameOver = true;
         int savedScored = PlayerPrefs.GetInt("Highscore");
-        if(score > savedScored)
+        if(Score > savedScored)
         {
-            PlayerPrefs.SetInt("Highscore", score);
+            PlayerPrefs.SetInt("Highscore", Score);
         }
         SetPageState(PageState.GameOver);
     }
 
     void OnPlayerScored()
     {
-        score++;
-        scoreText.text = score.ToString();
+        Score++;
+        scoreText.text = Score.ToString();
     }
 
     public void StartGame()

@@ -13,7 +13,7 @@ public class TabController : MonoBehaviour
     public float tiltSmooth = 5;
     public Vector3 startPos;
 
-    Rigidbody2D rigidbody;
+    Rigidbody2D rb;
     Quaternion downRotation;
     Quaternion forwardRotation;
 
@@ -21,10 +21,11 @@ public class TabController : MonoBehaviour
 
     void Start()
     {
-        rigidbody = GetComponent<Rigidbody2D>   ();
+        rb = GetComponent<Rigidbody2D>();
         downRotation = Quaternion.Euler(0, 0, -90);
         forwardRotation = Quaternion.Euler(0, 0, 35);
         game = GameManager.Instance;
+        rb.simulated = false;
     }
 
     void OnEnable()
@@ -41,8 +42,8 @@ public class TabController : MonoBehaviour
 
     void OnGameStarted()
     {
-        rigidbody.velocity = Vector3.zero;
-        rigidbody.simulated = true;
+        rb.velocity = Vector3.zero;
+        rb.simulated = true;
     }
 
     void OnGameOverConfirmed()
@@ -59,8 +60,8 @@ public class TabController : MonoBehaviour
         if(Input.GetMouseButtonDown(0))
         {
             transform.rotation = forwardRotation;
-            rigidbody.velocity = Vector3.zero;
-            rigidbody.AddForce(Vector2.up*tapForce, ForceMode2D.Force);
+            rb.velocity = Vector3.zero;
+            rb.AddForce(Vector2.up*tapForce, ForceMode2D.Force);
         }
 
         transform.rotation = Quaternion.Lerp(transform.rotation, downRotation, tiltSmooth*Time.deltaTime);
@@ -75,7 +76,7 @@ public class TabController : MonoBehaviour
 
         if(collision.gameObject.tag == "Dead Zone")
         {
-            rigidbody.simulated = false;
+            rb.simulated = false;
             OnPlayerDied(); //event sent to GameManager
         }
 
