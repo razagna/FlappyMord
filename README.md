@@ -1,2 +1,2 @@
 # FlappyMord
-It's Flappy bird, but my brother
+It's Flappy bird, but..
