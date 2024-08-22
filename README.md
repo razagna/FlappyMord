@@ -1,4 +1,4 @@
-### Description
+### Flappy Mord
 Flappy Mord, a replica of Dong Nguyen's well-known [Flappy Bird](http://flappybird.io/) mobile game, challenges players to fly the bird character between pipes without colliding with them.
 
 ![](flappy-mord.gif)
